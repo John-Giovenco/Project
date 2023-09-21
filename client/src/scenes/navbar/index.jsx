@@ -24,9 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
-import state from "state";
 
-const navbar = () => {
+const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -190,4 +189,4 @@ const navbar = () => {
   );
 };
 
-export default navbar;
+export default Navbar;
