@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { EditOutlinedIcon } from "@mui/icons-material/EditOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -27,9 +27,19 @@ const registerSchema = yup.object().shape({
 });
 
 const loginSchema = yup.object().shape({
-  email: yup.string.email("invalidemail").required("required"),
+  email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
 });
+
+const initialValuesRegister = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  location: "",
+  occupation: "",
+  picture: "",
+};
 
 const initialValuesLogin = {
   email: "",
@@ -45,7 +55,52 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
-  const handleFormSubmit = async (values, onSubmitProps) => {};
+  const register = async (values, onSubmitProps) => {
+    // allows send form info with image
+    const formData = new FormData();
+    for (let value in values) {
+      formData.append(value, values[value]);
+    }
+    formData.append("picturePath", values.picture.name);
+
+    const savedUserResponse = await fetch(
+      "http://localhost:3001/auth/register",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const savedUser = await savedUserResponse.json();
+    onSubmitProps.resetForm();
+
+    if (savedUser) {
+      setPageType("login");
+    }
+  };
+
+  const login = async (values, onSubmitProps) => {
+    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
+    onSubmitProps.resetForm();
+    if (loggedIn) {
+      dispatch(
+        setLogin({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
+      );
+      navigate("/home");
+    }
+  };
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    if (isLogin) await login(values, onSubmitProps);
+    if (isRegister) await register(values, onSubmitProps);
+  };
 
   return (
     <Formik
@@ -81,8 +136,7 @@ const Form = () => {
                   value={values.firstName}
                   name="firstName"
                   error={
-                    Boolean(touched.firstName) &&
-                    BookOnlineSharp(errors.firstName)
+                    Boolean(touched.firstName) && Boolean(errors.firstName)
                   }
                   helperText={touched.firstName && errors.firstName}
                   sx={{ gridColum: "span 2" }}
@@ -93,10 +147,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.lastName}
                   name="lastName"
-                  error={
-                    Boolean(touched.lastName) &&
-                    BookOnlineSharp(errors.lastName)
-                  }
+                  error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                   helperText={touched.lastName && errors.lastName}
                   sx={{ gridColum: "span 2" }}
                 />
@@ -107,8 +158,7 @@ const Form = () => {
                   value={values.Occupation}
                   name="Occupation"
                   error={
-                    Boolean(touched.Occupation) &&
-                    BookOnlineSharp(errors.Occupation)
+                    Boolean(touched.Occupation) && Boolean(errors.Occupation)
                   }
                   helperText={touched.Occupation && errors.Occupation}
                   sx={{ gridColum: "span 4" }}
@@ -119,10 +169,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.Location}
                   name="Location"
-                  error={
-                    Boolean(touched.Location) &&
-                    BookOnlineSharp(errors.Location)
-                  }
+                  error={Boolean(touched.Location) && Boolean(errors.Location)}
                   helperText={touched.Location && errors.Location}
                   sx={{ gridColum: "span 4" }}
                 />
@@ -168,28 +215,61 @@ const Form = () => {
               onChange={handleChange}
               value={values.email}
               name="email"
-              error={Boolean(touched.email) && BookOnlineSharp(errors.email)}
+              error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
               sx={{ gridColum: "span 4" }}
             />
             <TextField
               label="Password"
+              type="password"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
-              name="Password
-              "
-              error={
-                Boolean(touched.password) && BookOnlineSharp(errors.password)
-              }
+              name="Password"
+              error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
               sx={{ gridColum: "span 4" }}
             />
           </Box>
 
           {/* buttons */}
+          <Box>
+            <Button
+              fullWidth
+              type="submit"
+              sx={{
+                m: "2rem 0",
+                p: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
+              }}
+            >
+              {isLogin ? "LOGIN" : "REGISTER"}
+            </Button>
+            <Typography
+              onClick={() => {
+                setPageType(isLogin ? "register" : "login");
+                resetForm();
+              }}
+              sx={{
+                textDecoration: "underline",
+                color: palette.primary.main,
+                "&:hover": {
+                  cursor: "pointer",
+                  color: palette.primary.light,
+                },
+              }}
+            >
+              {isLogin
+                ? "Don't have an account? Sign Up here."
+                : "Already have an account? Login here."}
+            </Typography>
+          </Box>
         </form>
       )}
     </Formik>
   );
 };
+
+export default Form;
