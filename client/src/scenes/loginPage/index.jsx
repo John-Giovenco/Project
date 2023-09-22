@@ -26,6 +26,7 @@ const LoginPage = () => {
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
           Welcome to Chat Jitsu, the Social Media for Jiu Jitsu Fans!
         </Typography>
+        <Form />
       </Box>
     </Box>
   );
