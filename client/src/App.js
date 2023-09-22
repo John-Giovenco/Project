@@ -1,9 +1,4 @@
-import {
-  BrowserRouter,
-  /*Navigate,*/ Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import HomePage from "scenes/homePage";
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
@@ -27,7 +22,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route
               path="/home"
-              element={isAuth ? <homePage /> : <Navigate to="/" />}
+              element={isAuth ? <HomePage /> : <Navigate to="/" />}
             />
             <Route
               path="/profile/:userId"
