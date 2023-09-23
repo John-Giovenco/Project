@@ -6,7 +6,6 @@ import {
   ImageOutlined,
   MicOutlined,
   MoreHorizOutlined,
-  ImageOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -20,7 +19,7 @@ import {
 } from "@mui/material";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
-import UserImage from "components.UserImage";
+import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

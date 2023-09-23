@@ -118,7 +118,7 @@ const Navbar = () => {
         </IconButton>
       )}
 
-      {/* mobile nav*/}
+      {/* mobile nav */}
       {!isNonMobileScreens && isMobileMenuToggled && (
         <Box
           position="fixed"

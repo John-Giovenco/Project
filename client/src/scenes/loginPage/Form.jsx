@@ -152,25 +152,25 @@ const Form = () => {
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
-                  label="Occupation"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.Occupation}
-                  name="Occupation"
-                  error={
-                    Boolean(touched.Occupation) && Boolean(errors.Occupation)
-                  }
-                  helperText={touched.Occupation && errors.Occupation}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
                   label="Location"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.Location}
+                  value={values.location}
                   name="Location"
-                  error={Boolean(touched.Location) && Boolean(errors.Location)}
-                  helperText={touched.Location && errors.Location}
+                  error={Boolean(touched.location) && Boolean(errors.location)}
+                  helperText={touched.location && errors.location}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Occupation"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.occupation}
+                  name="occupation"
+                  error={
+                    Boolean(touched.occupation) && Boolean(errors.occupation)
+                  }
+                  helperText={touched.occupation && errors.occupation}
                   sx={{ gridColumn: "span 4" }}
                 />
                 <Box
@@ -221,6 +221,7 @@ const Form = () => {
             />
             <TextField
               label="Password"
+              type="password"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
