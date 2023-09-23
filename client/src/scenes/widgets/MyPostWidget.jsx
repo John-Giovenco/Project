@@ -1,11 +1,11 @@
 import {
   EditOutlined,
   DeleteOutlined,
-  AttachedFileOutlined,
+  AttachFileOutlined,
   GifBoxOutlined,
-  imageOutlined,
+  ImageOutlined,
   MicOutlined,
-  MoreHorizonOutlined,
+  MoreHorizOutlined,
   ImageOutlined,
 } from "@mui/icons-material";
 import {
@@ -151,7 +151,7 @@ const MyPostWidget = ({ picturePath }) => {
           </>
         ) : (
           <FlexBetween gap="0.25rem">
-            <MoreHorizonOutlined sx={{ color: mediumMain }} />
+            <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
         )}
 
